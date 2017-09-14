@@ -23,32 +23,32 @@ The goals / steps of this project are the following:
 My pipeline consisted of 6 steps. 
 1. First, I converted the images to grayscale.
 
-![solidWhiteRight_gray] (./test_images_output/solidWhiteRight_gray.jpg) 
+![solidWhiteRight_gray](./test_images_output/solidWhiteRight_gray.jpg) 
 Converted to black and white
 
 2. After the grayscale conversion, I apply a gaussian blur to remove unwanted noise 
 that may result in more 'edges' during the Canny edge detection step.
 3. I then find edges using a Canny edge detector.
 
-![solidWhiteRight_canny] (./test_images_output/solidWhiteRight_canny.jpg) 
+![solidWhiteRight_canny](./test_images_output/solidWhiteRight_canny.jpg) 
 After the Canny edge detector
 
 4. The image is then masked using a trapezoid shape to define a region of interest.
 
-![solidWhiteRight_masked] (./test_images_output/solidWhiteRight_masked.jpg)
+![solidWhiteRight_masked](./test_images_output/solidWhiteRight_masked.jpg)
 The masked image
 
 5. The masked image is then processed using the Hough transform to extract the left 
 and right lane lines.
     - In this step, I do all the math needed to extrapolate and draw both lines in full.
 
-![solidWhiteRight_transformed] (./test_images_output/solidWhiteRight_transformed.jpg)
+![solidWhiteRight_transformed](./test_images_output/solidWhiteRight_transformed.jpg)
 The lines are drawn
 
 6. The final image is a combined image of the original one, overlaid with the 
 lane lines drawn in the previous step. 
 
-![solidWhiteRight_final] (./test_images_output/solidWhiteRight_final.jpg) 
+![solidWhiteRight_final](./test_images_output/solidWhiteRight_final.jpg) 
 The final image / video frame.
 
 
