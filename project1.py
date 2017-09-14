@@ -72,10 +72,16 @@ def draw_lines(img, lines, color=[255, 0, 0], thickness=2):
     If you want to make the lines semi-transparent, think about combining
     this function with the weighted_img() function below
     """
+    plt.imshow(img)
+    plt.title("Draw_lines started")
+    plt.show()
     for line in lines:
         for x1, y1, x2, y2 in line:
             cv2.line(img, (x1, y1), (x2, y2), color, thickness)
 
+    plt.imshow(img)
+    plt.title("Draw_lines finished")
+    plt.show()
 
 def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
     """
@@ -122,6 +128,9 @@ def process_image(originalImg):
     kernelSize = 5
     grayImg = cv2.cvtColor(originalImg, cv2.COLOR_RGB2GRAY)
     processedImg = cv2.GaussianBlur(grayImg, (kernelSize, kernelSize), 0)
+    plt.imshow(processedImg)
+    plt.title("After desaturation and Gaussian blur. Next: Canny")
+    plt.show()
 
     # Apply Canny filter
     processedImg = canny(processedImg, 50, 150)
@@ -137,23 +146,32 @@ def process_image(originalImg):
     processedImg = region_of_interest(processedImg, vertices)
 
     # Apply Hough Transform (detect lines)
-    lines = hough_lines(processedImg, rho=1, theta=np.pi / 180, threshold=4, min_line_len=20, max_line_gap=16)
+    lines = hough_lines(processedImg, rho=1, theta=np.pi / 180, threshold=6, min_line_len=30, max_line_gap=16)
+    plt.imshow(processedImg)
+    plt.title("Processed image after Canny & Hough Transform")
+    plt.show()
 
     # Get a blank image copy to overlay the lines on
     line_image = np.copy(processedImg) * 0
-
+    plt.imshow(line_image)
+    plt.title("Empty image copy for furter action. Next: Draw Lines")
+    plt.show()
     # Here comes the part where we must extrapolate both left and right lines
     # to connect from the closest to the furthest point in the region of interest
 
     # TODO: Add algorithm here
 
-    draw_lines(line_image, lines)
+    #draw_lines(line_image, lines)
 
+    line_image_colour = np.dstack((line_image, line_image, line_image))
     # Combine original and lines image
     alpha = 0.8
     beta = 1.0
     l = 0.0
-    finalImg = weighted_img(originalImg, line_image, alpha, beta, l)
+    finalImg = weighted_img(originalImg, line_image_colour, alpha, beta, l)
+    plt.imshow(finalImg)
+    plt.title("Final Image after analysis")
+    plt.show()
     return finalImg
 
 # Processing a single image
@@ -187,8 +205,9 @@ def main_on_video(inputVideoPath, outputVideoPath):
 # Why not call this from the command line?
 # ----------------------------------------
 if __name__ == "__main__":
-    imgDir = "/home/andrej/git/CarND-P1-DetectLaneLines/test_images"
-    images = os.listdir(imgDir)
-    for image in images:
-        main_on_images(imgDir + '/' + image)
+    #imgDir = "/home/andrej/git/CarND-P1-DetectLaneLines/test_images"
+    #images = os.listdir(imgDir)
+    #for image in images:
+    #    main_on_images(imgDir + '/' + image)
+    main_on_images("/home/andrej/git/CarND-P1-DetectLaneLines/test_images/solidWhiteCurve.jpg")
     print("Done!")
